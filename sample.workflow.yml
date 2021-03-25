@@ -1,0 +1,7 @@
+- getMessage:
+    call: http.get
+    args:
+      url: https://jsonplaceholder.typicode.com/todos/1
+    result: todo1
+- returnValue:
+    return: ${todo1.body}
