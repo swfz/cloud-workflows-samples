@@ -6,6 +6,12 @@
 
 とりあえずAPIを叩いてみるためのサンプル
 
+- argument.workflow.yml
+
+ランタイム引数を扱うサンプル
+
+run時に`--data={"first_name":"piyo"}`というように引数を渡す
+
 
 ## デプロイ、実行(例)
 

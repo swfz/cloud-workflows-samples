@@ -1,0 +1,48 @@
+main:
+  params: [args]
+  steps:
+    - call_subworkflow:
+        call: build_params
+        args:
+          arg_params: ${args}
+        result: params
+    - return_message:
+        return: ${params}
+
+build_params:
+  params: [arg_params]
+  steps:
+    - fix_first_name:
+        call: fix_value
+        args:
+          params: ${arg_params}
+          key: first_name
+          default: hoge
+        result: fixed_first_name
+
+    - fix_last_name:
+        call: fix_value
+        args:
+          params: ${arg_params}
+          key: last_name
+          default: fuga
+        result: fixed_last_name
+
+    - build:
+        assign:
+          - fixed_params:
+              first_name: ${fixed_first_name}
+              last_name: ${fixed_last_name}
+
+    - return_value:
+        return: ${fixed_params}
+
+fix_value:
+  params: [params, key, default]
+  steps:
+    - check_value:
+        switch:
+          - condition: ${key in params}
+            return: ${params[key]}
+          - condition: ${not(key in params)}
+            return: ${default}
