@@ -12,6 +12,14 @@
 
 run時に`--data={"first_name":"piyo"}`というように引数を渡す
 
+- now.workflow.yml
+
+sys.now
+
+- log-output.workflow.yml
+
+ログ出力
+
 
 ## デプロイ、実行(例)
 
