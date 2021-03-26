@@ -1,0 +1,8 @@
+main:
+  steps:
+    - assign_value:
+        assign:
+          - now: ${sys.now()}
+    - return_value:
+        return: ${now}
+

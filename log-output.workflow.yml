@@ -1,0 +1,25 @@
+main:
+  steps:
+    - getMessage:
+        call: http.get
+        args:
+          url: https://jsonplaceholder.typicode.com/todos/1
+        result: todo1
+    - log_raw:
+        call: sys.log
+        args:
+          text: ${todo1}
+          severity: INFO
+    - log_encoded:
+        call: sys.log
+        args:
+          text: ${json.encode_to_string(todo1)}
+          severity: WARNING
+    - log_with_text:
+        call: sys.log
+        args:
+          text: ${"ERROR " + json.encode_to_string(todo1)}
+          severity: CRITICAL
+    - returnValue:
+        return: ${todo1}
+
