@@ -20,6 +20,9 @@ sys.now
 
 ログ出力
 
+- subworkflow.workflow.yml
+
+サブワークフロー
 
 ## デプロイ、実行(例)
 

@@ -1,0 +1,25 @@
+main:
+  steps:
+    - call_subworkflow1:
+        call: sum
+        args:
+          n1: 1
+          n2: 1
+        result: total1
+
+    - call_subworkflow2:
+        call: sum
+        args:
+          n1: 2
+          n2: 2
+        result: total2
+
+
+    - return_value:
+        return: ${total1 + total2}
+
+sum:
+  params: [n1, n2]
+  steps:
+    - return_value:
+        return: ${n1 + n2}
