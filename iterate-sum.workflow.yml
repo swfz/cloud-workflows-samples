@@ -1,0 +1,35 @@
+main:
+  steps:
+    - define:
+        assign:
+          - numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+          - sum: 0
+          - i: 0
+
+    - check_condition:
+        switch:
+          - condition: ${len(numbers) > i}
+            next: iterate
+        next: exit_loop
+
+    - iterate:
+        switch:
+          - condition: ${numbers[i] % 2 == 0}
+            steps:
+              - append:
+                  assign:
+                    - sum: ${sum + numbers[i]}
+        next: iterate-increment
+
+    - iterate-increment:
+        assign:
+          - i: ${i+1}
+        next: check_condition
+
+    - exit_loop:
+        return:
+            result: ${sum}
+
+    - return_value:
+        return: ${sum}
+
