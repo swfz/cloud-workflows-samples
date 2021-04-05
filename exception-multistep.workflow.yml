@@ -24,3 +24,5 @@ main:
                 args:
                   text: ${json.encode_to_string(e)}
                   severity: CRITICAL
+            - raise_error:
+                raise: ${e}
