@@ -28,6 +28,14 @@ sys.now
 
 偶数のみ足し上げて計算結果を返す
 
+- exception-single.workflow.yml
+
+tryを用いた例外のキャッチ
+
+- exception-multi.workflow.yml
+
+複数ステップをまたいだ例外処理のキャッチ
+
 ## デプロイ、実行(例)
 
 ```

@@ -1,0 +1,19 @@
+main:
+  steps:
+    - request:
+        try:
+          call: http.get
+          args:
+            url: https://jsonplaceholder.typicode.com/todos/aa
+          result: response
+        except:
+          as: e
+          steps:
+            - log_error:
+                call: sys.log
+                args:
+                  text: ${json.encode_to_string(e)}
+                  severity: CRITICAL
+
+    - return_value:
+        return: ${response}

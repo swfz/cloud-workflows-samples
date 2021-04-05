@@ -1,0 +1,26 @@
+main:
+  steps:
+    - multi_request:
+        try:
+          steps:
+            - request1:
+                call: http.get
+                args:
+                  url: https://jsonplaceholder.typicode.com/todos/1
+                result: response1
+            - request2:
+                call: http.get
+                args:
+                  url: https://jsonplaceholder.typicode.com/todos/aa
+                result: response2
+            - return_value:
+                return: ${response2}
+
+        except:
+          as: e
+          steps:
+            - log_error:
+                call: sys.log
+                args:
+                  text: ${json.encode_to_string(e)}
+                  severity: CRITICAL
