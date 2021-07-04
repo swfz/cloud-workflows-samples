@@ -1,0 +1,17 @@
+- get_random:
+    call: googleapis.bigquery.v2.jobs.query
+    args:
+      projectId: terraform-sample-294414
+      body:
+        query: "SELECT CAST(FLOOR(10*RAND()) AS INT64)"
+        useLegacySql: false
+    result: query_result
+
+- log_result:
+    call: sys.log
+    args:
+      text: ${query_result}
+      severity: INFO
+
+- return_value:
+    return: ${int(query_result.rows[0].f[0].v)}
