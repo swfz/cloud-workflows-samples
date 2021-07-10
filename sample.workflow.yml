@@ -3,5 +3,21 @@
     args:
       url: https://jsonplaceholder.typicode.com/todos/1
     result: todo1
+- logging_raw:
+    call: sys.log
+    args:
+      text: ${todo1}
+      severity: INFO
+- logging_body:
+    call: sys.log
+    args:
+      text: ${todo1.body}
+      severity: WARNING
+- logging_json_encoded:
+    call: sys.log
+    args:
+      text: ${json.encode_to_string(todo1)}
+      severity: CRITICAL
+
 - returnValue:
     return: ${todo1.body}

@@ -1,0 +1,13 @@
+- init:
+    assign:
+      - project: ${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}
+      - location: 'us-central1'
+      - workflow: 'call-other-workflows-other'
+- create_executions:
+    call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.create
+    args:
+      parent: ${"projects/" + project + "/locations/" + location + "/workflows/" + workflow}
+    result: result
+
+- return_result:
+    return: ${result}

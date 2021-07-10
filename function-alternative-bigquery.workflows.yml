@@ -5,13 +5,28 @@
       body:
         query: "SELECT CAST(FLOOR(10*RAND()) AS INT64)"
         useLegacySql: false
-    result: query_result
+    result: random_result
 
-- log_result:
+- get_yesterday:
+    call: googleapis.bigquery.v2.jobs.query
+    args:
+      projectId: terraform-sample-294414
+      body:
+        query: "SELECT FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE('Asia/Tokyo'), INTERVAL 1 DAY))"
+        useLegacySql: false
+    result: yesterday_result
+
+- log_random:
     call: sys.log
     args:
-      text: ${query_result}
+      text: ${random_result}
+      severity: INFO
+
+- log_yesterday:
+    call: sys.log
+    args:
+      text: ${yesterday_result}
       severity: INFO
 
 - return_value:
-    return: ${int(query_result.rows[0].f[0].v)}
+    return: ${int(yesterday_result.rows[0].f[0].v)}
