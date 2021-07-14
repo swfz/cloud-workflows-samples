@@ -1,0 +1,17 @@
+- get_random:
+    call: googleapis.bigquery.v2.jobs.query
+    args:
+      projectId: ${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}
+      body:
+        query: "SELECT CAST(FLOOR(10*RAND()) AS INT64)"
+        useLegacySql: false
+    result: query_result
+
+- log_result:
+    call: sys.log
+    args:
+      text: ${query_result}
+      severity: INFO
+
+- return_value:
+    return: ${query_result}

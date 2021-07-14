@@ -1,0 +1,17 @@
+- get_formatted_string:
+    call: googleapis.bigquery.v2.jobs.query
+    args:
+      projectId: ${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}
+      body:
+        query: "SELECT FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE('Asia/Tokyo'), INTERVAL 1 DAY)),FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE('Asia/Tokyo'), INTERVAL 8 DAY))"
+        useLegacySql: false
+    result: query_result
+
+- log_result:
+    call: sys.log
+    args:
+      text: ${query_result}
+      severity: INFO
+
+- return_value:
+    return: ${query_result}

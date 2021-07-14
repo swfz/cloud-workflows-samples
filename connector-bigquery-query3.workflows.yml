@@ -1,0 +1,38 @@
+- get_urls:
+    call: googleapis.bigquery.v2.jobs.query
+    args:
+      projectId: ${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}
+      body:
+        query: "SELECT url FROM `blog_data.articles` WHERE updated > '2021-06-01'"
+        useLegacySql: false
+    result: target_urls
+
+- init:
+    assign:
+      - i: 0
+
+- check_condition:
+    switch:
+      - condition: ${len(target_urls.rows) > i}
+        next: iterate
+    next: exit_loop
+
+- iterate:
+    steps:
+      - assign_value:
+          assign:
+            - target_url: ${target_urls.rows[i].f[0].v}
+      - log:
+          call: sys.log
+          args:
+            text: ${target_url}
+            severity: INFO
+    next: iterate-increment
+
+- iterate-increment:
+    assign:
+      - i: ${i+1}
+    next: check_condition
+
+- exit_loop:
+    return: 'done'
