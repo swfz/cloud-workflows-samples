@@ -1,0 +1,53 @@
+- init:
+    assign:
+    - project_id: ${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}
+    - dataset_id: "sample_dataset"
+    - table_id: "analytics_summary"
+    - query: "
+SELECT
+  DATE(
+    timestamp_micros(event_timestamp),
+    'Asia/Tokyo'
+  ) AS d,
+  COUNT(1) AS pageview
+FROM `project-111111.analytics_1111111.events_*`, UNNEST(event_params) AS params
+WHERE
+_TABLE_SUFFIX BETWEEN @start_date and @end_date
+AND event_name = 'page_view'
+AND params.key = 'page_location'
+GROUP BY
+  d"
+
+- summary:
+    call: googleapis.bigquery.v2.jobs.insert
+    args:
+      projectId: ${project_id}
+      body:
+        configuration:
+          query:
+            query: ${query}
+            destinationTable:
+              projectId: ${project_id}
+              datasetId: ${dataset_id}
+              tableId: ${table_id}
+            create_disposition: "CREATE_IF_NEEDED"
+            write_disposition: "WRITE_TRUNCATE"
+            allowLargeResults: true
+            useLegacySql: false
+            queryParameters:
+              - name: start_date
+                parameterValue:
+                  value: "20210601"
+                parameterType:
+                  type: STRING
+              - name: end_date
+                parameterValue:
+                  value: "20210610"
+                parameterType:
+                  type: STRING
+        jobReference:
+          location: asia-northeast1
+    result: result
+
+- return:
+    return: ${result}
