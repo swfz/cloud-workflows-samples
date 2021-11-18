@@ -2,7 +2,7 @@ main:
   steps:
     - assign_value:
         assign:
-          - now: ${sys.now()}
+          - now: ${text.split(time.format(sys.now()), "T")[0]}
     - return_value:
         return: ${now}
 
