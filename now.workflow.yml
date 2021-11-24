@@ -2,7 +2,11 @@ main:
   steps:
     - assign_value:
         assign:
-          - now: ${text.split(time.format(sys.now()), "T")[0]}
+          - today: ${text.split(time.format(sys.now(), "Asia/Tokyo"), "T")[0]}
+          - yesterady: ${text.split(time.format(sys.now() - 86400, "Asia/Tokyo"), "T")[0]}
+          - elapsed_first_day_of_month: ${int(text.split(text.split(time.format(sys.now(), "Asia/Tokyo"), "T")[0], "-")[2]) * 60 * 60}
+          - first_day_of_month: ${text.split(time.format(sys.now() - int(text.split(text.split(time.format(sys.now(), "Asia/Tokyo"), "T")[0], "-")[2]) * 86400 + 86400, "Asia/Tokyo"), "T")[0]}
+          - seven_days_ago: ${text.split(time.format(sys.now() - int("07") * 86400, "Asia/Tokyo"), "T")[0]}
     - return_value:
-        return: ${now}
+        return: ${"today:" + today + ", yesterday:" + yesterady + ", 7days ago:" + seven_days_ago + ", first day of month:" + first_day_of_month}
 
